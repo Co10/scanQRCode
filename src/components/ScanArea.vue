@@ -131,7 +131,7 @@ export default {
         }
       } else {
         try {
-          qrScanner.turnFlashOn().then((a) => {
+          qrScanner.turnFlashOff().then((a) => {
             if (a) flashState.value = 1;
           });
         } catch (e) {

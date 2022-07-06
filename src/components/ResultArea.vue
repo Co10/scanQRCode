@@ -1,16 +1,6 @@
 <template>
   <q-card class="result-card" ref="cheight">
     <HistoryList class="result-list" :list="list" :temp="true" />
-    <q-list bordered>
-      <q-item clickable v-ripple v-for="it in list" :key="it.id">
-        <q-item-section @click="openUrl(it)"
-          ><q-item-label lines="2">{{ it.value }}</q-item-label></q-item-section
-        >
-        <q-item-section side @click="copyText(it.value)">
-          <q-icon name="content_copy" color="green" />
-        </q-item-section>
-      </q-item>
-    </q-list>
   </q-card>
 </template>
 
