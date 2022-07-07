@@ -4,5 +4,6 @@ export default function () {
     currentResult: [],
     resultHeight: 0,
     removeID: 0,
+    newImgs: null,
   };
 }

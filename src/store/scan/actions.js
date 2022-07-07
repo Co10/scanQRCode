@@ -1,21 +1,11 @@
-import { uid } from "quasar";
+import scanResultProcess from "components/scanResultProcess";
 
 export function hasCamera(context, value) {
   context.commit("HAS_CAMERA", value);
 }
 
 export function scanResult(context, value) {
-  let type = "text";
-  let time = new Date().getTime();
-  let id = uid();
-  if (value.indexOf("http://") === 0 || value.indexOf("https://") === 0)
-    type = "url";
-  context.commit("SCAN_RESULT", {
-    time,
-    id,
-    type,
-    value,
-  });
+  context.commit("SCAN_RESULT", scanResultProcess(value, "camera"));
 }
 
 export function scanClear(context, value) {
@@ -36,4 +26,11 @@ export function removeItem(context, value) {
   } else {
     context.commit("REMOVE_LOCAL", value.id);
   }
+}
+
+export function newImages(context, value) {
+  value.result.forEach((i) => {
+    i.result = scanResultProcess(i.result, "file");
+  });
+  context.commit("SCAN_IMAGES", value);
 }

@@ -32,3 +32,8 @@ export function REMOVE_LOCAL(state, value) {
   ch.remove(value);
   state.removeID = value;
 }
+
+export function SCAN_IMAGES(state, value) {
+  ch.pushArr(value.result);
+  state.newImgs = value;
+}

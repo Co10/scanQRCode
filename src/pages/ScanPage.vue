@@ -1,23 +1,44 @@
 <template>
   <ScanArea :scanHeight="scanHeight" />
   <ResultArea />
+  <q-dialog v-model="fs.show">
+    <q-card>
+      <q-card-section>
+        <div class="text-h6">Results</div>
+      </q-card-section>
+      <q-card-section>
+        <FileResult :results="fs.results" />
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
-import { defineComponent, ref, watchEffect, onMounted } from "vue";
+import { defineComponent, ref, watchEffect, onMounted, reactive } from "vue";
 import { useStore } from "vuex";
-import ScanArea from "../components/ScanArea.vue";
-import ResultArea from "../components/ResultArea.vue";
+import ScanArea from "components/ScanArea.vue";
+import ResultArea from "components/ResultArea.vue";
+import FileResult from "components/FileResult.vue";
 
 export default defineComponent({
   name: "ScanPage",
-  components: { ScanArea, ResultArea },
+  components: { ScanArea, ResultArea, FileResult },
   setup() {
     const store = useStore();
+    let fs = reactive({
+      show: false,
+      results: null,
+    });
 
     onMounted(() => {
       watchEffect(() => {
         watchHeight();
+        fs.results = store.state.scan.newImgs;
+        if (fs.results !== null) {
+          fs.show = true;
+        } else {
+          fs.show = false;
+        }
       });
     });
     let scanHeight = ref(window.innerHeight);
@@ -35,7 +56,7 @@ export default defineComponent({
       else scanHeight.value = wh;
     }
 
-    return { scanHeight };
+    return { scanHeight, fs };
   },
 });
 </script>

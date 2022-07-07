@@ -1,14 +1,6 @@
 <template>
-  <q-item
-    clickable
-    tag="a"
-    target="_blank"
-    :href="link"
-  >
-    <q-item-section
-      v-if="icon"
-      avatar
-    >
+  <q-item clickable tag="a" @click="goTo(direct, link)">
+    <q-item-section v-if="icon" avatar>
       <q-icon :name="icon" />
     </q-item-section>
 
@@ -20,30 +12,50 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: 'EssentialLink',
+  name: "EssentialLink",
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
 
     caption: {
       type: String,
-      default: ''
+      default: "",
     },
 
     link: {
       type: String,
-      default: '#'
+      default: "#",
+    },
+    direct: {
+      type: String,
+      default: "",
     },
 
     icon: {
       type: String,
-      default: ''
+      default: "",
+    },
+  },
+  setup() {
+    const router = useRouter();
+
+    function goTo(r, l) {
+      if (r === "" && l === "#") return;
+      if (r !== "") {
+        router.push(r);
+        return;
+      }
+      if (l !== "#") {
+        window.open(l);
+      }
     }
-  }
-})
+    return { goTo };
+  },
+});
 </script>

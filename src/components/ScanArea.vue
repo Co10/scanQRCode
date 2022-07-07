@@ -18,7 +18,7 @@
         :icon="flashIcon"
         @click="toggleFlash"
       />
-      <q-btn round color="grey-9" icon="wallpaper" />
+      <q-btn round color="grey-9" icon="wallpaper" @click="inputImages" />
     </div>
     <video class="camera-area" ref="vTag"></video>
   </div>
@@ -28,7 +28,11 @@
 import { ref, onMounted, nextTick, watchEffect, computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { useQuasar } from "quasar";
 import QrScanner from "qr-scanner";
+
+import inputFiles from "./inputFiles";
+import scanImages from "./scanImages";
 
 export default {
   name: "ScanArea",
@@ -36,6 +40,7 @@ export default {
   setup() {
     const store = useStore();
     const router = useRouter();
+    const $q = useQuasar();
     const hasCamera = QrScanner.hasCamera(); // async
 
     let vTag = ref(null);
@@ -78,6 +83,10 @@ export default {
       } else {
         startCamera();
       }
+    }
+    function pauseCamera() {
+      camPaused.value = true;
+      qrScanner.stop();
     }
 
     onMounted(() => {
@@ -159,6 +168,24 @@ export default {
       router.replace("/");
     }
 
+    function inputImages() {
+      let res = inputFiles();
+      res
+        .then((imgs) => {
+          scanImages(
+            imgs,
+            (sres) => {
+              pauseCamera();
+              store.dispatch("scan/newImages", sres);
+            },
+            () => {
+              $q.notify("None has Result!");
+            }
+          );
+        })
+        .catch((e) => console.error(e));
+    }
+
     return {
       vTag,
       closePage,
@@ -169,6 +196,7 @@ export default {
       flashState,
       flashIcon,
       toggleFlash,
+      inputImages,
     };
   },
 };

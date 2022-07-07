@@ -18,7 +18,7 @@
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header> Some Links </q-item-label>
+        <q-item-label header> Some Functions or Links </q-item-label>
 
         <EssentialLink
           v-for="link in essentialLinks"
@@ -39,6 +39,12 @@ import { defineComponent, ref } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
 
 const linksList = [
+  {
+    title: "File Scanner",
+    caption: "Scan QR Codes from images",
+    icon: "document_scanner",
+    direct: "funcs/fromFiles",
+  },
   {
     title: "Github",
     caption: "github.com/Co10/scanQRCode",

@@ -23,6 +23,16 @@ class CodeHistory {
     }
     return result;
   }
+  pushArr(a) {
+    let c = [];
+    a.forEach((i) => {
+      c.push(i.result);
+    });
+    let result = this.get();
+    result.unshift(...c);
+    this.#set(result);
+    return result;
+  }
   push(a) {
     let result = this.get();
     result.unshift(a);
