@@ -1,1 +1,0 @@
-.video-container{background:#000;height:100vh;overflow:hidden;width:100vw}.camera-area{display:block}.btn-area{position:fixed;top:5vh;width:90%;z-index:5}.btn-area>button{opacity:.6}.scan-region-highlight{transform:scale(.8)!important}.result-card{bottom:0;max-height:40vh;overflow-y:auto;position:fixed;width:min(100vw,600px);z-index:6}.result-list{width:100%}
